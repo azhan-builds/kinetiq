@@ -84,7 +84,7 @@ body {
 }
 
 .header-logo-icon {
-  height: 36px;
+  height: 48px;
   width: auto;
   color: var(--color-text-primary);
   opacity: 1;
@@ -1212,6 +1212,10 @@ body {
     right: 10px;
     padding: 0 1rem;
     height: 58px;
+  }
+
+  .header-logo-icon {
+    height: 42px;
   }
 
   /* Compact Balanced Mobile Hero */
