@@ -1,8 +1,8 @@
 :root {
-  /* Warm Editorial Color Palette — light warm off-white */
-  --bg-cream: #f7f3e8;
-  --bg-cream-alt: #f7f3e8;
-  --bg-cream-card: #f7f3e8;
+  /* Warm Editorial Color Palette — single unified warm off-white canvas */
+  --bg-cream: #F8F5EC;
+  --bg-cream-alt: #F8F5EC;
+  --bg-cream-card: #F8F5EC;
   
   --color-text-primary: #302C28;
   --color-text-secondary: #6E6862;
