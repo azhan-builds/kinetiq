@@ -1271,9 +1271,16 @@ body {
     box-shadow: none;
   }
 
-  .hero-video-element,
   .hero-fallback-image {
-    transform: scale(1.15);
+    transform: scale(1.35);
+    object-position: 47% 40%;
+    mix-blend-mode: multiply;
+    background: transparent;
+  }
+
+  .hero-video-element {
+    transform: scale(2.12);
+    object-position: center 42%;
     mix-blend-mode: multiply;
     background: transparent;
   }
