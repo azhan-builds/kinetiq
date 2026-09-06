@@ -1,0 +1,27 @@
+:root {
+  /* Warm Editorial Color Palette — light warm off-white */
+  --bg-cream: #f7f3e8;
+  --bg-cream-alt: #f7f3e8;
+  --bg-cream-card: #f7f3e8;
+  
+  --color-text-primary: #302C28;
+  --color-text-secondary: #6E6862;
+  --color-text-muted: #948E87;
+  
+  --color-accent: #B85C3A;
+  --color-accent-hover: #A04D2E;
+  --color-accent-tint: rgba(184, 92, 58, 0.08);
+  
+  --color-border: #E3DDD0;
+  --color-border-hairline: rgba(48, 44, 40, 0.1);
+
+  /* Refined Typography System */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-serif: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing & Layout */
+  --site-max-width: 1360px;
+  --header-height: 80px;
+}
