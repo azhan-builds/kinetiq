@@ -58,6 +58,20 @@ const TEAM_MEMBERS: TeamMember[] = [
     image: '/team/mohammed-baseem.svg',
     description: 'Keeps track of the bigger picture, connecting documentation, operations, and strategic thinking throughout the competition.',
   },
+  {
+    num: '07',
+    name: 'Syed Vasaf',
+    role: 'Content & Editorial',
+    image: '/team/Syed_vasaf.svg',
+    description: 'Focuses on content production and editorial work, shaping how KINETIQ’s engineering and build process is presented and documented.',
+  },
+  {
+    num: '08',
+    name: 'Ikrima',
+    role: 'Content & Editorial',
+    image: '/team/Ikrima.svg',
+    description: 'Drives editorial refining and content creation, ensuring the depth and precision of KINETIQ’s story is clearly articulated.',
+  },
 ];
 
 // Motion Variants
@@ -139,7 +153,7 @@ const EditorialStroke: React.FC<EditorialStrokeProps> = ({ progress }) => {
 
   const strokeDashoffset = useTransform(progress, [0, 1], [pathLength, 0]);
 
-  // Organic S-curve path weaving between 6 alternating cards inside centered column
+  // Organic S-curve path weaving between 8 alternating cards inside centered column
   const pathData = `
     M 500,80
     C 500,220 300,220 300,420
@@ -148,13 +162,15 @@ const EditorialStroke: React.FC<EditorialStrokeProps> = ({ progress }) => {
     C 300,2150 700,2150 700,2500
     C 700,2850 300,2850 300,3200
     C 300,3550 700,3550 700,3900
-    C 700,4100 500,4100 500,4250
+    C 700,4250 300,4250 300,4600
+    C 300,4950 700,4950 700,5300
+    C 700,5500 500,5500 500,5650
   `;
 
   return (
     <svg
       className="team-editorial-stroke-svg"
-      viewBox="0 0 1000 4350"
+      viewBox="0 0 1000 5750"
       preserveAspectRatio="none"
       aria-hidden="true"
     >
@@ -324,7 +340,7 @@ export const TeamSection: React.FC = () => {
       {/* HEADER */}
       <div className="team-header">
         <h2 className="team-main-title">The Team</h2>
-        <p className="team-subtitle">Six people. One machine.</p>
+        <p className="team-subtitle">Eight people. One machine.</p>
       </div>
 
       {/* ALTERNATING CARDS STACK */}

@@ -117,7 +117,7 @@ export const MissionSection: React.FC = () => {
             progress={scrollYProgress}
             range={[0.00, 0.12]}
             className="mission-lead-text"
-            text="We’re six people competing in NRL 2026."
+            text="We’re eight people competing in NRL 2026."
           />
 
           <FocusWords
