@@ -106,11 +106,13 @@ export const CtaSection: React.FC = () => {
             </div>
           </motion.a>
 
-          {/* YOUTUBE (COMING SOON) */}
-          <motion.div
-            className="cta-nav-item cta-nav-disabled"
+          {/* YOUTUBE */}
+          <motion.a
+            href="https://www.youtube.com/@Kinetiqnrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-nav-item cta-nav-active"
             variants={itemVariants}
-            aria-disabled="true"
           >
             <div className="cta-icon-wrapper">
               <svg className="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -119,13 +121,10 @@ export const CtaSection: React.FC = () => {
               </svg>
             </div>
             <div className="cta-text-wrapper">
-              <div className="cta-title-row">
-                <span className="cta-nav-title">YouTube</span>
-                <span className="cta-badge">COMING SOON</span>
-              </div>
+              <span className="cta-nav-title">YouTube</span>
               <span className="cta-nav-subtitle">Watch the build</span>
             </div>
-          </motion.div>
+          </motion.a>
 
           {/* EMAIL */}
           <motion.a
