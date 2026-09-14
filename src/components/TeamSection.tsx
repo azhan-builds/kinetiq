@@ -53,10 +53,10 @@ const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     num: '06',
-    name: 'Mohammed Baseem',
-    role: 'Documentation & Strategy',
-    image: '/team/mohammed-baseem.svg',
-    description: 'Keeps track of the bigger picture, connecting documentation, operations, and strategic thinking throughout the competition.',
+    name: 'Ahmed Arham',
+    role: 'Media & Content Producer',
+    image: '/team/ahmed-arham.svg',
+    description: 'Shapes how KINETIQ’s work is communicated, from capturing the process to producing content that documents the team, the build, and the journey.',
   },
   {
     num: '07',
