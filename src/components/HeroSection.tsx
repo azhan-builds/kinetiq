@@ -1,8 +1,69 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
   onNavigate: (sectionId: string) => void;
 }
+
+const HeroMoveUnderline: React.FC = () => {
+  const [isDrawn, setIsDrawn] = useState(false);
+
+  // Full-width organic path coordinates (M 1.5 ... 98.5)
+  const dBase = "M 1.5 6.0 C 26 4.7, 50 6.9, 74 5.2 C 84 5.8, 92 5.3, 98.5 6.0";
+  const dMorph1 = "M 1.5 6.3 C 28 5.3, 48 6.3, 73 5.7 C 85 5.0, 91 6.2, 98.5 5.6";
+  const dMorph2 = "M 1.5 5.7 C 24 5.8, 52 4.9, 75 6.2 C 83 5.4, 93 5.1, 98.5 6.2";
+
+  return (
+    <svg
+      className="hero-move-underline-svg"
+      viewBox="0 0 100 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <motion.path
+        d={isDrawn ? undefined : dBase}
+        stroke="#BF603B"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={
+          isDrawn
+            ? {
+                d: [dBase, dMorph1, dMorph2, dBase],
+                y: [0, 0.5, -0.4, 0],
+                pathLength: 1,
+                opacity: 1,
+              }
+            : {
+                pathLength: 1,
+                opacity: 1,
+              }
+        }
+        transition={
+          isDrawn
+            ? {
+                d: { duration: 3.6, repeat: Infinity, ease: 'easeInOut' },
+                y: { duration: 3.6, repeat: Infinity, ease: 'easeInOut' },
+                pathLength: { duration: 0 },
+                opacity: { duration: 0 },
+              }
+            : {
+                pathLength: { duration: 0.85, delay: 0.45, ease: [0.16, 1, 0.3, 1] },
+                opacity: { duration: 0.2, delay: 0.45 },
+              }
+        }
+        onAnimationComplete={() => {
+          if (!isDrawn) {
+            setIsDrawn(true);
+          }
+        }}
+      />
+    </svg>
+  );
+};
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -67,7 +128,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           {/* Main Headline */}
           <h1 className="hero-headline hero-reveal delay-1">
             <span className="headline-line-1">We build machines</span>
-            <span className="headline-line-2">that move with intent.</span>
+            <span className="headline-line-2">
+              that{' '}
+              <span className="hero-move-wrapper">
+                move
+                <HeroMoveUnderline />
+              </span>{' '}
+              with intent.
+            </span>
           </h1>
 
           {/* Secondary Statement */}

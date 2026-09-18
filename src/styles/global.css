@@ -193,6 +193,22 @@ body {
   font-style: italic;
 }
 
+.hero-move-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-move-underline-svg {
+  position: absolute;
+  left: -3%;
+  bottom: 0px;
+  width: 106%;
+  height: 10px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-secondary-statement {
   font-family: var(--font-sans);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
