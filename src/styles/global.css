@@ -2200,7 +2200,7 @@ body {
 }
 
 /* ==========================================
-   PRELOADER IDENTITY INTRO STYLING
+   PRELOADER IDENTITY INTRO STYLING (SKETCHBOOK)
    ========================================== */
 
 .preloader-screen {
@@ -2219,9 +2219,22 @@ body {
   justify-content: center;
   overflow: hidden;
   pointer-events: auto;
+  user-select: none;
+}
+
+.preloader-sketchbook-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .preloader-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2233,7 +2246,7 @@ body {
 }
 
 .preloader-logo-wrapper {
-  margin-bottom: 2.25rem;
+  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2241,41 +2254,86 @@ body {
 }
 
 .preloader-logo-img {
-  width: 72px;
+  width: 68px;
   height: auto;
   display: block;
 }
 
+.preloader-brand-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--color-text-primary);
+  margin-top: 0.9rem;
+  text-transform: uppercase;
+}
+
 @media (min-width: 768px) {
   .preloader-logo-img {
-    width: 88px;
+    width: 84px;
+  }
+  .preloader-brand-name {
+    font-size: 1.75rem;
+    letter-spacing: 0.3em;
+    margin-top: 1.1rem;
   }
 }
 
-.preloader-progress-bar {
-  width: 140px;
-  height: 1.5px;
-  background-color: rgba(41, 38, 36, 0.1);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 1.25rem;
-  position: relative;
+.preloader-line-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  width: 100%;
 }
 
-.preloader-progress-fill {
-  width: 100%;
-  height: 100%;
-  background-color: var(--color-accent);
-  transform-origin: left center;
-  border-radius: 2px;
+.preloader-organic-line-svg {
+  width: 200px;
+  height: 24px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .preloader-organic-line-svg {
+    width: 220px;
+  }
 }
 
 .preloader-tagline {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   color: var(--color-text-muted);
   text-transform: uppercase;
+  margin-top: 0.5rem;
 }
+
+/* Responsive sketchbook SVG mark density tuning */
+@media (max-width: 640px) {
+  .sketch-top-right,
+  .sketch-bottom-left {
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 430px) {
+  .sketch-top-right {
+    display: none;
+  }
+  .sketch-bottom-left {
+    opacity: 0.35;
+  }
+  .sketch-top-left {
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+  .sketch-bottom-right {
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+}
+
 
