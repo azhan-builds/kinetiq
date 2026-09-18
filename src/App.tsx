@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { MissionSection } from './components/MissionSection';
+import { BuildSection } from './components/BuildSection';
 import { TeamSection } from './components/TeamSection';
 import { CtaSection } from './components/CtaSection';
 import { Footer } from './components/Footer';
@@ -26,7 +27,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'mission', 'team', 'connect'];
+      const sections = ['hero', 'mission', 'build', 'team', 'connect'];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -56,6 +57,7 @@ export const App: React.FC = () => {
       <div className="page-two-sheet" id="page-two">
         <main>
           <MissionSection />
+          <BuildSection />
           <TeamSection />
           <CtaSection />
         </main>

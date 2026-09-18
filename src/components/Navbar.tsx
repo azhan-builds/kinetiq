@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 interface NavbarProps {
   activeSection?: string;
@@ -35,6 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
 
   const navItems = [
     { id: 'mission', label: 'Mission' },
+    { id: 'build', label: 'Build' },
     { id: 'team', label: 'Team' },
     { id: 'connect', label: 'Connect' },
   ];
@@ -67,15 +69,28 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
 
           {/* Desktop Navigation Links */}
           <nav className="header-nav desktop-only-nav" aria-label="Main Navigation">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeSection === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`nav-link ${isActive ? 'active' : ''}`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-active-indicator"
+                      className="nav-active-indicator"
+                      transition={{
+                        duration: 0.4,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </nav>
 
           {/* Mobile Hamburger Toggle Button (3 horizontal lines) */}
