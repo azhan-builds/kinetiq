@@ -170,6 +170,3 @@ export const MissionSection: React.FC = () => {
     </section>
   );
 };
-
-
-

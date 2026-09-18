@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { Preloader } from '../components/Preloader';
 import { Navbar } from '../components/Navbar';
 import { HeroSection } from '../components/HeroSection';
-import { MachineSection } from '../components/MachineSection';
 import { MissionSection } from '../components/MissionSection';
 import { BuildSection } from '../components/BuildSection';
 import { GallerySection } from '../components/GallerySection';
@@ -41,7 +40,7 @@ export const HomePage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'machine', 'mission', 'build', 'team', 'gallery', 'connect'];
+      const sections = ['hero', 'mission', 'build', 'team', 'gallery', 'connect'];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -71,7 +70,6 @@ export const HomePage: React.FC = () => {
       {/* PAGE 02: THE KINETIQ MISSION LOG (Continuous Sheet) */}
       <div className="page-two-sheet" id="page-two">
         <main>
-          <MachineSection />
           <MissionSection />
           <BuildSection />
           <TeamSection />

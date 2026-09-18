@@ -190,18 +190,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
-
-      {/* Hero Bottom Scroll Indicator */}
-      <div className="hero-footer-bar hero-reveal delay-5" style={heroStyle}>
-        <button
-          onClick={() => onNavigate('mission')}
-          className="scroll-indicator"
-          aria-label="Scroll to mission section"
-        >
-          <span>Scroll</span>
-          <span className="scroll-arrow" aria-hidden="true">↓</span>
-        </button>
-      </div>
     </section>
   );
 };
