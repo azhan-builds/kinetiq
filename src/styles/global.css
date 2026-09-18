@@ -259,11 +259,12 @@ body {
 .hero-visual-stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1465 / 1073;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  background: transparent;
   border: none;
   outline: none;
   box-shadow: none;
@@ -281,38 +282,37 @@ body {
   border: none;
   outline: none;
   box-shadow: none;
-  background-color: var(--bg-cream);
+  background: transparent;
 }
 
-.hero-video-element {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center 42%;
-  display: block;
-  pointer-events: none;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  background-color: var(--bg-cream);
-  transform: scale(2.12);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
+.hero-video-element,
 .hero-fallback-image {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: 47% 40%;
+  object-position: center;
   display: block;
   pointer-events: none;
   border: none;
   outline: none;
   box-shadow: none;
-  transform: scale(1.35);
+  background: transparent;
+  transform: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+/* Seamless Crossfade Handoff */
+.hero-fallback-image {
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-fallback-image.image-fade-in {
+  opacity: 1;
 }
 
 /* Subtle breathing animation for post-video idle state */
@@ -322,13 +322,13 @@ body {
 
 @keyframes heroBreathing {
   0%, 100% {
-    transform: scale(1.35) translateY(0) rotate(0deg);
+    transform: translateY(0) rotate(0deg);
   }
   33% {
-    transform: scale(1.35) translateY(-3px) rotate(0.3deg);
+    transform: translateY(-3px) rotate(0.3deg);
   }
   66% {
-    transform: scale(1.35) translateY(1px) rotate(-0.2deg);
+    transform: translateY(1px) rotate(-0.2deg);
   }
 }
 
@@ -500,6 +500,144 @@ body {
   color: var(--color-text-primary);
   max-width: 720px;
   margin-top: 1rem;
+}
+
+/* ==================================================
+   EXPLODED MACHINE ANATOMY SECTION
+   ================================================== */
+
+.machine-section {
+  position: relative;
+  width: 100%;
+  max-width: var(--site-max-width);
+  margin: 0 auto;
+  padding: 7.5rem 3rem;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--bg-cream);
+  overflow: hidden;
+}
+
+.machine-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.machine-header {
+  text-align: center;
+  margin-bottom: 7.5rem;
+}
+
+.machine-header-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.machine-header-divider {
+  opacity: 0.4;
+}
+
+.machine-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.machine-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Machine Stage - Frame Aspect Ratio 1465 / 1073 */
+.machine-stage-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 1465 / 1073;
+  margin: 0 auto;
+  background-color: var(--bg-cream);
+}
+
+.machine-part-wrapper {
+  position: absolute;
+  will-change: transform;
+}
+
+.machine-part-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+/* Annotation Layer & Leader Line */
+.machine-part-annotation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.machine-leader-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.machine-part-tag-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 12;
+}
+
+.machine-part-tag-wrapper.align-right {
+  transform: translate(0, -50%);
+}
+
+.machine-part-tag-wrapper.align-left {
+  transform: translate(-100%, -50%);
+}
+
+.machine-part-tag {
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-text-primary);
+  background-color: rgba(248, 245, 236, 0.96);
+  border: 1px solid rgba(48, 44, 40, 0.16);
+  padding: 3px 9px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(48, 44, 40, 0.05);
+  display: inline-block;
 }
 
 /* ==================================================
@@ -810,6 +948,193 @@ body {
   font-style: italic;
   color: var(--color-text-muted);
   margin-top: 0.5rem;
+}
+
+/* ==================================================
+   GALLERY SECTION & ARCHIVE PAGE
+   ================================================== */
+
+.gallery-section {
+  position: relative;
+  width: 100%;
+  max-width: var(--site-max-width);
+  margin: 0 auto;
+  padding: 7.5rem 3rem;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--bg-cream);
+  overflow: hidden;
+}
+
+.gallery-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-header {
+  text-align: center;
+  margin-bottom: 4.5rem;
+}
+
+.gallery-header-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gallery-header-divider {
+  opacity: 0.4;
+}
+
+.gallery-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.gallery-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* 6-Photo Preview Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  margin-bottom: 3.5rem;
+}
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-cream-card);
+  border: 1px solid rgba(48, 44, 40, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+}
+
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(48, 44, 40, 0.06);
+  border-color: rgba(48, 44, 40, 0.16);
+}
+
+/* Photo Frame with Soft-Edge Vignette Mask */
+.gallery-photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: var(--bg-cream-alt);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(48, 44, 40, 0.06);
+}
+
+.gallery-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  mix-blend-mode: multiply;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  mask-image: radial-gradient(ellipse 95% 95% at 50% 50%, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 95% 95% at 50% 50%, black 60%, transparent 100%);
+}
+
+.gallery-card:hover .gallery-photo-img {
+  transform: scale(1.04);
+}
+
+.gallery-photo-soft-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  box-shadow: inset 0 0 20px 6px var(--bg-cream);
+  border-radius: 8px;
+}
+
+/* Card Metadata */
+.gallery-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gallery-card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.gallery-card-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+}
+
+.gallery-card-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+.gallery-card-caption {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.gallery-cta-wrapper {
+  text-align: center;
+}
+
+.gallery-cta-pill {
+  text-decoration: none;
+}
+
+/* Full Gallery Page Sheet */
+.gallery-page-sheet {
+  min-height: 100vh;
+}
+
+.full-gallery-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.25rem;
 }
 
 /* ==================================================
@@ -1609,8 +1934,8 @@ body {
   }
 
   .hero-visual-stage {
-    aspect-ratio: 16 / 10;
-    max-height: 320px;
+    aspect-ratio: 1465 / 1073;
+    max-height: 340px;
     order: 2;
     margin-top: 0.25rem;
     border: none;
@@ -1626,17 +1951,11 @@ body {
     box-shadow: none;
   }
 
+  .hero-video-element,
   .hero-fallback-image {
-    transform: scale(1.35);
-    object-position: 47% 40%;
-    mix-blend-mode: multiply;
-    background: transparent;
-  }
-
-  .hero-video-element {
-    transform: scale(2.12);
-    object-position: center 42%;
-    mix-blend-mode: multiply;
+    transform: none;
+    object-fit: contain;
+    object-position: center;
     background: transparent;
   }
 
@@ -1644,9 +1963,54 @@ body {
     padding: 1.5rem 1.25rem 0;
   }
 
+  /* Machine Section Mobile Fixes */
+  .machine-section {
+    padding: 4.5rem 1.25rem;
+  }
+
+  .machine-header {
+    margin-bottom: 3rem;
+  }
+
+  .machine-main-title {
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem);
+  }
+
+  .machine-subtitle {
+    font-size: 1rem;
+  }
+
+  .machine-part-tag {
+    font-size: 0.5625rem;
+    padding: 2px 6px;
+  }
+
   /* Build Section Mobile Adjustments */
   .build-section {
     padding: 4.5rem 1.25rem;
+  }
+
+  /* Gallery Section Mobile Adjustments */
+  .gallery-section {
+    padding: 4.5rem 1.25rem;
+  }
+
+  .gallery-header {
+    margin-bottom: 3rem;
+  }
+
+  .gallery-main-title {
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem);
+  }
+
+  .gallery-subtitle {
+    font-size: 1rem;
+  }
+
+  .gallery-grid,
+  .full-gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .build-header {
@@ -1834,3 +2198,84 @@ body {
     padding: 0 1.25rem;
   }
 }
+
+/* ==========================================
+   PRELOADER IDENTITY INTRO STYLING
+   ========================================== */
+
+.preloader-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
+  background-color: var(--bg-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 360px;
+  width: 85vw;
+  padding: 1.5rem;
+}
+
+.preloader-logo-wrapper {
+  margin-bottom: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-logo-img {
+  width: 72px;
+  height: auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .preloader-logo-img {
+    width: 88px;
+  }
+}
+
+.preloader-progress-bar {
+  width: 140px;
+  height: 1.5px;
+  background-color: rgba(41, 38, 36, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.preloader-progress-fill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-accent);
+  transform-origin: left center;
+  border-radius: 2px;
+}
+
+.preloader-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+

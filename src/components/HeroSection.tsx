@@ -7,7 +7,9 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [showImage, setShowImage] = useState(false);
+  const [videoHidden, setVideoHidden] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -15,7 +17,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
     if (video) {
       video.play().catch(() => {
         setHasError(true);
-        setAnimationComplete(true);
+        setShowImage(true);
+        setVideoHidden(true);
       });
     }
 
@@ -32,13 +35,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
   }, []);
 
   const handleVideoEnded = () => {
-    // Transition to the static image with breathing animation
-    setAnimationComplete(true);
+    setVideoEnded(true);
+    // Hold completed robot state briefly (~200ms), then crossfade to static image
+    setTimeout(() => {
+      setShowImage(true);
+      // Once image fade-in completes (~500ms), remove video element
+      setTimeout(() => {
+        setVideoHidden(true);
+      }, 500);
+    }, 200);
   };
 
   const handleVideoError = () => {
     setHasError(true);
-    setAnimationComplete(true);
+    setShowImage(true);
+    setVideoHidden(true);
   };
 
   // Subtle natural upward movement and slight depth fade as user scrolls past hero
@@ -83,14 +94,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* RIGHT ZONE: KINETIQ Formation Hero Video Artwork */}
+        {/* RIGHT ZONE: Hero Video / Image Seamless Handoff Stage */}
         <div className="hero-visual-stage hero-reveal delay-2">
           <div className="hero-video-viewport">
-            {/* Show video during animation, then crossfade to breathing image */}
-            {!hasError && !animationComplete && (
+            {!hasError && !videoHidden && (
               <video
                 ref={videoRef}
-                className="hero-video-element"
+                className={`hero-video-element ${videoEnded ? 'video-ended' : ''}`}
                 src="/hero/kinetiq-formation.mp4"
                 poster="/hero/kinetiq-machine-final.png"
                 autoPlay
@@ -102,12 +112,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 onError={handleVideoError}
               />
             )}
-            {/* Static image with subtle breathing once animation completes */}
-            {(animationComplete || hasError) && (
+            {(showImage || hasError) && (
               <img
                 src="/hero/kinetiq-machine-final.png"
                 alt="KINETIQ Machine"
-                className="hero-fallback-image hero-breathing"
+                className={`hero-fallback-image hero-breathing ${showImage ? 'image-fade-in' : ''}`}
               />
             )}
           </div>
