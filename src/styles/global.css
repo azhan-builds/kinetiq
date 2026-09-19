@@ -903,7 +903,7 @@ body {
     left: 11px;
   }
   .roadmap-vertical-stack {
-    gap: 4.5rem; /* Inter-phase gap space for straddling margin sketches */
+    gap: 3.5rem;
   }
   .roadmap-phase-item-vertical {
     grid-template-columns: 32px 1fr;
@@ -913,39 +913,9 @@ body {
     padding-left: 0.25rem;
   }
   
+  /* Hide margin sketch icons completely on mobile */
   .roadmap-scattered-sketch {
-    position: absolute;
-    z-index: 4;
-    pointer-events: none;
-  }
-
-  /* Left-positioned sketches (matching desktop side, straddling phase boundary) */
-  .roadmap-scattered-sketch.sketch-kickoff {
-    left: -10px;
-    right: auto;
-    top: calc(100% - 28px);
-  }
-  .roadmap-scattered-sketch.sketch-build {
-    left: -10px;
-    right: auto;
-    top: calc(100% - 32px);
-  }
-
-  /* Right-positioned sketches (matching desktop side, straddling phase boundary) */
-  .roadmap-scattered-sketch.sketch-prototype {
-    right: -4px;
-    left: auto;
-    top: calc(100% - 24px);
-  }
-  .roadmap-scattered-sketch.sketch-test {
-    right: -4px;
-    left: auto;
-    top: calc(100% - 28px);
-  }
-  
-  .roadmap-sketch-img {
-    max-width: 135px !important;
-    max-height: 135px !important;
+    display: none !important;
   }
 }
 
