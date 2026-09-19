@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface NavbarProps {
@@ -7,32 +7,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNavigate }) => {
-  const [hidden, setHidden] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - lastScrollY.current;
-
-      if (currentY <= 20) {
-        // At the very top — always visible
-        setHidden(false);
-      } else if (delta > 4 && !mobileMenuOpen) {
-        // Scrolling down — hide (unless mobile menu is open)
-        setHidden(true);
-      } else if (delta < -4) {
-        // Scrolling up — show
-        setHidden(false);
-      }
-
-      lastScrollY.current = currentY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [mobileMenuOpen]);
 
   const navItems = [
     { id: 'mission', label: 'Mission' },
@@ -48,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
 
   return (
     <>
-      <header className={`site-header${hidden ? ' nav-hidden' : ''}${mobileMenuOpen ? ' mobile-menu-active' : ''}`}>
+      <header className={`site-header${mobileMenuOpen ? ' mobile-menu-active' : ''}`}>
         <div className="header-inner">
           {/* Upper-Left Canonical KINETIQ Logo Anchor */}
           <button
