@@ -65,7 +65,7 @@ export const GalleryPage: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Link to="/" className="gallery-back-link">
+              <Link to="/" state={{ targetSection: 'gallery' }} className="gallery-back-link">
                 <span className="back-arrow" aria-hidden="true">←</span>
                 <span>BACK TO KINETIQ</span>
               </Link>

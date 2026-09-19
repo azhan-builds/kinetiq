@@ -127,11 +127,27 @@ export const BuildSection: React.FC = () => {
 
         {/* Vertical Timeline Wrapper (All Breakpoints) */}
         <div className="roadmap-timeline-wrapper vertical-timeline">
-          {/* Top-to-Bottom Hand-Inked Connector Line */}
+          {/* Top-to-Bottom Hand-Inked Progress Connector Line */}
           <div className="roadmap-vertical-connector" aria-hidden="true">
             <svg viewBox="0 0 20 1000" preserveAspectRatio="none" className="roadmap-vertical-connector-svg">
+              {/* Upcoming phases: Lighter dashed line through all 6 phases */}
               <motion.path
                 d="M 10 10 L 10 990"
+                filter="url(#hand-inked-filter)"
+                stroke="#BF603B"
+                strokeOpacity="0.32"
+                strokeWidth="2.5"
+                strokeDasharray="6 4"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 1.6, ease: 'easeOut' }}
+              />
+
+              {/* Current phase: Solid full-accent oxblood/orange line through active Kickoff marker */}
+              <motion.path
+                d="M 10 10 L 10 40"
                 filter="url(#hand-inked-filter)"
                 stroke="#BF603B"
                 strokeWidth="2.5"
@@ -139,7 +155,7 @@ export const BuildSection: React.FC = () => {
                 initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 1.6, ease: 'easeOut' }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
               />
             </svg>
           </div>

@@ -37,11 +37,24 @@ export const HomePage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (location.state && (location.state as any).targetSection) {
-      const target = (location.state as any).targetSection;
+    if (activeSection) {
+      try {
+        sessionStorage.setItem('kinetiq_last_section', activeSection);
+      } catch {
+        // ignore
+      }
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    const targetFromState = (location.state as any)?.targetSection;
+    const lastSection = sessionStorage.getItem('kinetiq_last_section');
+    const target = targetFromState || (lastSection && lastSection !== 'hero' ? lastSection : null);
+
+    if (target) {
       setTimeout(() => {
         handleNavigate(target);
-      }, 100);
+      }, 120);
     }
   }, [location]);
 
