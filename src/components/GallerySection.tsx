@@ -1,82 +1,132 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, type Variants } from 'framer-motion';
+import { getLatestPhotos, type GalleryPhoto } from '../data/galleryPhotos';
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    filter: 'blur(4px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.75,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 export const GallerySection: React.FC = () => {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    getLatestPhotos(6).then((data) => {
+      if (isMounted) setPhotos(data);
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section id="gallery" className="section-block gallery-section">
-      <div className="gallery-placeholder-container">
+      <div className="gallery-preview-container">
+        {/* Editorial Section Header */}
         <motion.div
-          className="gallery-placeholder-content"
+          className="gallery-preview-header"
           initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Small Editorial Label */}
           <div className="gallery-header-badge">
             <span>02</span>
             <span className="gallery-header-divider">//</span>
-            <span>FIELD NOTES</span>
+            <span>GALLERY</span>
           </div>
 
-          {/* Main Heading */}
-          <h2 className="gallery-placeholder-title">Updates coming soon.</h2>
+          <h2 className="gallery-preview-title">Inside the build.</h2>
 
-          {/* Supporting Text */}
-          <p className="gallery-placeholder-text">
-            We’re still building. When there’s something worth showing, you’ll find it here.
+          <p className="gallery-preview-subtitle">
+            A record of the machines, people, experiments, and moments behind KINETIQ.
           </p>
+        </motion.div>
 
-          {/* Handcrafted Terracotta Line Accent */}
-          <div className="gallery-placeholder-line-wrapper">
-            <svg
-              className="gallery-placeholder-line-svg"
-              viewBox="0 0 160 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <line
-                x1="8"
-                y1="8"
-                x2="152"
-                y2="8"
-                stroke="#716D67"
-                strokeWidth="1"
-                strokeOpacity="0.22"
-                strokeDasharray="3 5"
-              />
-              <motion.path
-                d="M 10 8 C 40 6.8, 80 9.2, 120 7.4 C 135 8.1, 145 7.6, 150 8.1"
-                stroke="#BF603B"
-                strokeWidth="2.0"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-                animate={{
-                  d: [
-                    "M 10 8 C 40 6.8, 80 9.2, 120 7.4 C 135 8.1, 145 7.6, 150 8.1",
-                    "M 10 8.3 C 42 7.5, 78 8.4, 118 7.9 C 136 7.2, 144 8.3, 150 7.7",
-                    "M 10 7.7 C 38 8.1, 82 7.1, 122 8.3 C 134 7.6, 146 7.5, 150 8.0",
-                    "M 10 8 C 40 6.8, 80 9.2, 120 7.4 C 135 8.1, 145 7.6, 150 8.1",
-                  ],
-                  y: [0, 0.4, -0.3, 0],
-                }}
-                transition={{
-                  duration: 3.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-            </svg>
-          </div>
+        {/* 6-Photo Editorial Grid Composition (1 Feature + 5 Supporting) */}
+        <motion.div
+          className="gallery-preview-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+        >
+          {photos.map((photo, index) => {
+            const isFeature = index === 0;
+            return (
+              <motion.div
+                key={photo.id}
+                className={`gallery-preview-card ${isFeature ? 'gallery-feature-card' : ''}`}
+                variants={itemVariants}
+              >
+                <div className="gallery-card-frame">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="gallery-card-img"
+                    loading="lazy"
+                  />
+                  <div className="gallery-card-hover-scrim" />
+                </div>
 
-          {/* Secondary Monospace Status */}
-          <span className="gallery-placeholder-status">
-            BUILD IN PROGRESS · NRL 2026
-          </span>
+                <div className="gallery-card-info">
+                  <div className="gallery-card-top-meta">
+                    {photo.category && (
+                      <span className="gallery-card-category">{photo.category}</span>
+                    )}
+                    {photo.date && (
+                      <time className="gallery-card-date-str">{photo.date}</time>
+                    )}
+                  </div>
+                  <h3 className="gallery-card-heading">{photo.alt}</h3>
+                  {photo.caption && (
+                    <p className="gallery-card-subcaption">{photo.caption}</p>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Understated Show More CTA */}
+        <motion.div
+          className="gallery-cta-wrapper"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <Link to="/gallery" className="gallery-full-cta">
+            <span>VIEW FULL GALLERY</span>
+            <span className="cta-arrow-icon" aria-hidden="true">→</span>
+          </Link>
         </motion.div>
       </div>
     </section>
   );
 };
+

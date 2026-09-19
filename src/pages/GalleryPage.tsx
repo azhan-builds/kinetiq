@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, type Variants } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
@@ -10,7 +10,7 @@ const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
@@ -53,11 +53,24 @@ export const GalleryPage: React.FC = () => {
 
   return (
     <div className="site-wrapper">
-      <Navbar activeSection="" onNavigate={handleNavigate} />
+      <Navbar activeSection="gallery" onNavigate={handleNavigate} />
 
-      <main className="page-two-sheet gallery-page-sheet" style={{ paddingTop: '120px' }}>
+      <main className="page-two-sheet gallery-page-sheet" style={{ paddingTop: '110px' }}>
         <section className="section-block gallery-section full-gallery-section" style={{ borderTop: 'none' }}>
           <div className="gallery-container">
+            {/* Top Back Navigation Link */}
+            <motion.div
+              className="gallery-back-nav"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Link to="/" className="gallery-back-link">
+                <span className="back-arrow" aria-hidden="true">←</span>
+                <span>BACK TO KINETIQ</span>
+              </Link>
+            </motion.div>
+
             {/* Gallery Page Header */}
             <motion.div
               className="gallery-header"
@@ -68,15 +81,15 @@ export const GalleryPage: React.FC = () => {
               <div className="gallery-header-badge">
                 <span>03</span>
                 <span className="gallery-header-divider">//</span>
-                <span>COMPLETE ARCHIVE</span>
+                <span>GALLERY</span>
               </div>
-              <h1 className="gallery-main-title">Build Gallery</h1>
+              <h1 className="gallery-main-title">Gallery</h1>
               <p className="gallery-subtitle">
-                A complete visual chronicle of the KINETIQ workshop, iterations, and track testing.
+                A visual record of KINETIQ in motion.
               </p>
             </motion.div>
 
-            {/* Full Photo Grid */}
+            {/* Full Responsive Photo Grid */}
             <motion.div
               className="gallery-grid full-gallery-grid"
               variants={containerVariants}
@@ -101,7 +114,12 @@ export const GalleryPage: React.FC = () => {
 
                   <div className="gallery-card-meta">
                     <div className="gallery-card-top-row">
-                      <time className="gallery-card-date">{photo.date}</time>
+                      {photo.category && (
+                        <span className="gallery-card-tag">{photo.category}</span>
+                      )}
+                      {photo.date && (
+                        <time className="gallery-card-date">{photo.date}</time>
+                      )}
                     </div>
                     <h2 className="gallery-card-title">{photo.alt}</h2>
                     {photo.caption && (
@@ -119,3 +137,4 @@ export const GalleryPage: React.FC = () => {
     </div>
   );
 };
+
