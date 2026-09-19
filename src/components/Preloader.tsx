@@ -9,10 +9,23 @@ interface PreloaderProps {
 const EASE_CUBIC = [0.16, 1, 0.3, 1] as const;
 
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [hasSeenPreloader] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('kinetiq_preloader_seen') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [isVisible, setIsVisible] = useState(!hasSeenPreloader);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
+    if (hasSeenPreloader) {
+      if (onComplete) onComplete();
+      return;
+    }
+
     // Check reduced motion preference
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
@@ -25,6 +38,11 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     // Total intro duration: 2.1s under normal conditions, 0.5s for reduced motion
     const duration = mediaQuery.matches ? 500 : 2100;
     const timer = setTimeout(() => {
+      try {
+        sessionStorage.setItem('kinetiq_preloader_seen', 'true');
+      } catch {
+        // ignore
+      }
       setIsVisible(false);
       if (onComplete) onComplete();
     }, duration);
@@ -33,7 +51,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
       mediaQuery.removeEventListener('change', handleMotionChange);
       clearTimeout(timer);
     };
-  }, [onComplete]);
+  }, [hasSeenPreloader, onComplete]);
 
   // Motion variants for surrounding sketchbook elements
   const strokeVariants: Variants = {

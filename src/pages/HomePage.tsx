@@ -12,7 +12,13 @@ import { Footer } from '../components/Footer';
 
 export const HomePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('hero');
-  const [isPreloaderComplete, setIsPreloaderComplete] = useState<boolean>(false);
+  const [isPreloaderComplete, setIsPreloaderComplete] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('kinetiq_preloader_seen') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const location = useLocation();
 
   const handleNavigate = (sectionId: string) => {
