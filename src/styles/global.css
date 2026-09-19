@@ -913,7 +913,7 @@ body {
     padding-left: 0.25rem;
   }
   
-  /* Hide margin sketch icons completely on mobile */
+  /* Completely hide margin sketch icons on mobile */
   .roadmap-scattered-sketch {
     display: none !important;
   }
