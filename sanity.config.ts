@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { galleryImage } from './sanity/schemas/galleryImage';
+import { post } from './sanity/schemas/post';
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || '';
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
@@ -17,6 +18,6 @@ export default defineConfig({
   plugins: [structureTool()],
 
   schema: {
-    types: [galleryImage],
+    types: [galleryImage, post],
   },
 });

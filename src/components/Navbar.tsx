@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 interface NavbarProps {
@@ -10,15 +11,19 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'mission', label: 'Mission' },
-    { id: 'build', label: 'Build' },
-    { id: 'team', label: 'Team' },
-    { id: 'connect', label: 'Connect' },
+    { id: 'mission', label: 'Mission', isRoute: false },
+    { id: 'build', label: 'Build', isRoute: false },
+    { id: 'team', label: 'Team', isRoute: false },
+    { id: 'blog', label: 'Blog', isRoute: true, path: '/blog' },
+    { id: 'connect', label: 'Connect', isRoute: false },
   ];
 
-  const handleMobileNavClick = (id: string) => {
+  const handleMobileNavClick = (item: (typeof navItems)[0]) => {
     setMobileMenuOpen(false);
-    onNavigate(id);
+    if (item.isRoute && item.path) {
+      return;
+    }
+    onNavigate(item.id);
   };
 
   return (
@@ -46,6 +51,28 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
           <nav className="header-nav desktop-only-nav" aria-label="Main Navigation">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
+              if (item.isRoute && item.path) {
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.path}
+                    className={`nav-link ${isActive ? 'active' : ''}`}
+                  >
+                    {item.label}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-active-indicator"
+                        className="nav-active-indicator"
+                        transition={{
+                          duration: 0.4,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                      />
+                    )}
+                  </Link>
+                );
+              }
+
               return (
                 <button
                   key={item.id}
@@ -87,16 +114,33 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection = 'hero', onNaviga
         <div className="mobile-menu-overlay" onClick={() => setMobileMenuOpen(false)}>
           <div className="mobile-menu-drawer" onClick={(e) => e.stopPropagation()}>
             <nav className="mobile-nav-list" aria-label="Mobile Navigation">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleMobileNavClick(item.id)}
-                  className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-                >
-                  <span className="mobile-nav-text">{item.label}</span>
-                  <span className="mobile-nav-arrow" aria-hidden="true">→</span>
-                </button>
-              ))}
+              {navItems.map((item) => {
+                const isActive = activeSection === item.id;
+                if (item.isRoute && item.path) {
+                  return (
+                    <Link
+                      key={item.id}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`mobile-nav-link ${isActive ? 'active' : ''}`}
+                    >
+                      <span className="mobile-nav-text">{item.label}</span>
+                      <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+                    </Link>
+                  );
+                }
+
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleMobileNavClick(item)}
+                    className={`mobile-nav-link ${isActive ? 'active' : ''}`}
+                  >
+                    <span className="mobile-nav-text">{item.label}</span>
+                    <span className="mobile-nav-arrow" aria-hidden="true">→</span>
+                  </button>
+                );
+              })}
             </nav>
           </div>
         </div>
