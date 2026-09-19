@@ -1,3 +1,5 @@
+import { sanityClient, urlFor, isSanityConfigured } from '../sanity/client';
+
 export interface GalleryPhoto {
   id: string;
   src: string;
@@ -7,8 +9,16 @@ export interface GalleryPhoto {
   category?: string;
 }
 
-// Initial dataset of real project images
-const GALLERY_PHOTOS: GalleryPhoto[] = [
+interface SanityGalleryImageDoc {
+  _id: string;
+  _createdAt: string;
+  image?: any;
+  caption?: string;
+  order?: number;
+}
+
+// Fallback dataset of real project images when Sanity is not connected
+const LOCAL_GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 'photo-001',
     src: '/hero/kinetiq-machine-final.png',
@@ -76,25 +86,51 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
 ];
 
 /**
- * Fetch the N most recent gallery photos sorted by date descending.
- * Async signature allows swapping for CMS API without changing caller components.
+ * Fetch all gallery photos sorted by order asc, _createdAt desc.
+ * Queries Sanity CMS if configured, otherwise falls back to local photos.
  */
-export async function getLatestPhotos(count: number): Promise<GalleryPhoto[]> {
-  const sorted = [...GALLERY_PHOTOS].sort((a, b) => {
+export async function getAllPhotos(): Promise<GalleryPhoto[]> {
+  if (isSanityConfigured && sanityClient) {
+    try {
+      const query = `*[_type == "galleryImage"] | order(order asc, _createdAt desc) {
+        _id,
+        _createdAt,
+        image,
+        caption,
+        order
+      }`;
+      const docs = await sanityClient.fetch<SanityGalleryImageDoc[]>(query);
+
+      if (docs && docs.length > 0) {
+        return docs.map((doc: SanityGalleryImageDoc) => {
+          const imageUrl = doc.image ? urlFor(doc.image)?.url() || '' : '';
+          return {
+            id: doc._id,
+            src: imageUrl,
+            alt: doc.caption || 'KINETIQ Gallery Photo',
+            caption: doc.caption,
+            date: doc._createdAt ? doc._createdAt.substring(0, 10) : undefined,
+          };
+        });
+      }
+    } catch (err) {
+      console.warn('Failed to fetch gallery images from Sanity CMS, falling back to local images:', err);
+    }
+  }
+
+  // Fallback to local photos
+  return [...LOCAL_GALLERY_PHOTOS].sort((a, b) => {
     if (!a.date || !b.date) return 0;
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
-  return sorted.slice(0, count);
 }
 
 /**
- * Fetch all gallery photos sorted by date descending.
- * Async signature allows swapping for CMS API without changing caller components.
+ * Fetch the N most recent gallery photos.
  */
-export async function getAllPhotos(): Promise<GalleryPhoto[]> {
-  return [...GALLERY_PHOTOS].sort((a, b) => {
-    if (!a.date || !b.date) return 0;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+export async function getLatestPhotos(count: number): Promise<GalleryPhoto[]> {
+  const all = await getAllPhotos();
+  return all.slice(0, count);
 }
+
 
