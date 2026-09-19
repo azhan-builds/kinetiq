@@ -48,7 +48,7 @@ export const CtaSection: React.FC = () => {
           </motion.p>
         </div>
 
-        {/* 3 CIRCULAR CHANNEL ICON BUTTONS */}
+        {/* 6 CIRCULAR CHANNEL ICON BUTTONS */}
         <div className="cta-channel-grid">
           {/* INSTAGRAM */}
           <motion.a
@@ -101,6 +101,59 @@ export const CtaSection: React.FC = () => {
             </div>
             <span className="cta-channel-label">Email</span>
             <span className="cta-channel-caption">Get the updates</span>
+          </motion.a>
+
+          {/* LINKEDIN */}
+          <motion.a
+            href="https://www.linkedin.com/in/kinetiq-nrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-channel-link"
+            variants={itemVariants}
+          >
+            <div className="cta-circle-btn">
+              <svg className="cta-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </div>
+            <span className="cta-channel-label">LinkedIn</span>
+            <span className="cta-channel-caption">Connect with the team</span>
+          </motion.a>
+
+          {/* X (TWITTER) */}
+          <motion.a
+            href="https://x.com/kinetiq_nrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-channel-link"
+            variants={itemVariants}
+          >
+            <div className="cta-circle-btn">
+              <svg className="cta-btn-icon cta-btn-icon-solid" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </div>
+            <span className="cta-channel-label">X (Twitter)</span>
+            <span className="cta-channel-caption">Follow the feed</span>
+          </motion.a>
+
+          {/* FACEBOOK */}
+          <motion.a
+            href="https://www.facebook.com/profile.php?id=61594009149860"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cta-channel-link"
+            variants={itemVariants}
+          >
+            <div className="cta-circle-btn">
+              <svg className="cta-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+            </div>
+            <span className="cta-channel-label">Facebook</span>
+            <span className="cta-channel-caption">Join the page</span>
           </motion.a>
         </div>
       </motion.div>

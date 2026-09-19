@@ -1287,12 +1287,13 @@ body {
 
 /* Circular Channel Buttons Grid */
 .cta-channel-grid {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.5rem 2.5rem;
   width: 100%;
-  max-width: 680px;
+  max-width: 780px;
+  margin: 0 auto;
+  justify-items: center;
 }
 
 .cta-channel-link {
@@ -1301,6 +1302,7 @@ body {
   align-items: center;
   text-decoration: none;
   color: var(--color-text-primary);
+  text-align: center;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1357,12 +1359,19 @@ body {
   color: var(--color-text-primary);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .cta-channel-grid {
+    gap: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 580px) {
   .cta-section {
-    padding: 5.5rem 1.5rem 7rem;
+    padding: 5.5rem 1.25rem 7rem;
   }
   .cta-channel-grid {
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem 1rem;
   }
   .cta-circle-btn {
     width: 60px;
@@ -1371,6 +1380,12 @@ body {
   .cta-btn-icon {
     width: 23px;
     height: 23px;
+  }
+  .cta-channel-label {
+    font-size: 0.9375rem;
+  }
+  .cta-channel-caption {
+    font-size: 0.75rem;
   }
 }
 
