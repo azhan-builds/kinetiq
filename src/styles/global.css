@@ -1220,7 +1220,7 @@ body {
    ================================================== */
 
 /* ==================================================
-   FINAL CTA / CONNECT SECTION (Minimal Editorial Navigation)
+   FINAL CTA / CONNECT SECTION (Redesigned Editorial Closing)
    ================================================== */
 
 .cta-section {
@@ -1228,112 +1228,30 @@ body {
   width: 100%;
   max-width: var(--site-max-width);
   margin: 0 auto;
-  padding: 9.5rem 3rem 11.5rem;
+  padding: 8.5rem 3rem 10rem;
   border-top: 1px solid var(--color-border);
   background-color: var(--bg-cream);
   overflow: hidden;
 }
 
-/* Atmospheric Ambient Lighting & Geometry Overlay */
-.cta-ambient-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Feathered Organic Light Blobs */
-.ambient-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  will-change: transform;
-}
-
-/* Upper-Left Terracotta Warmth Bleed */
-.orb-terracotta-topleft {
-  top: -20%;
-  left: -12%;
-  width: 580px;
-  height: 580px;
-  background: radial-gradient(circle, rgba(217, 123, 91, 0.22) 0%, rgba(217, 123, 91, 0.04) 65%, transparent 85%);
-  animation: atmosphericFloat 24s ease-in-out infinite alternate;
-}
-
-/* Lower-Right Terracotta Warmth Bleed */
-.orb-terracotta-bottomright {
-  bottom: -22%;
-  right: -12%;
-  width: 660px;
-  height: 660px;
-  background: radial-gradient(circle, rgba(217, 123, 91, 0.24) 0%, rgba(217, 123, 91, 0.05) 65%, transparent 85%);
-  animation: atmosphericFloat 28s ease-in-out infinite alternate-reverse;
-}
-
-/* Warm Beige Soft Drifting Light */
-.orb-warm-beige {
-  top: 25%;
-  right: -5%;
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(234, 224, 203, 0.6) 0%, rgba(226, 213, 188, 0.15) 70%, transparent 90%);
-  animation: atmosphericFloat 22s ease-in-out infinite alternate;
-}
-
-/* Slightly Darker Cream Base Light */
-.orb-deep-cream {
-  bottom: 20%;
-  left: -5%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(230, 218, 195, 0.5) 0%, rgba(220, 206, 180, 0.12) 65%, transparent 85%);
-  animation: atmosphericFloat 26s ease-in-out infinite alternate-reverse;
-}
-
-/* Imperceptible Slow Ambient Motion Keyframes */
-@keyframes atmosphericFloat {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(16px, -12px) scale(1.03);
-  }
-  100% {
-    transform: translate(-10px, 14px) scale(0.97);
-  }
-}
-
-/* Abstract Geometry Inspired by KINETIQ Logo Mark */
-.cta-kinetiq-geometry {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-/* Soft Central Clearing Vignette (Headline zone stays bright & clean) */
-.ambient-center-clearing {
+/* Faint Warm Terracotta Radial Glow Background */
+.cta-ambient-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
-  height: 75%;
-  background: radial-gradient(ellipse at center, rgba(248, 245, 236, 0.75) 0%, rgba(248, 245, 236, 0.25) 60%, transparent 100%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(circle at center, rgba(191, 96, 59, 0.09) 0%, rgba(191, 96, 59, 0.02) 55%, transparent 75%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .cta-container {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1342,7 +1260,7 @@ body {
 
 .cta-header {
   text-align: center;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 
 .cta-main-title {
@@ -1352,126 +1270,109 @@ body {
   line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--color-text-primary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.cta-accent-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--color-accent);
 }
 
 .cta-supporting-text {
   font-family: var(--font-sans);
-  font-size: clamp(1.125rem, 1.8vw, 1.35rem);
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
   font-weight: 500;
   color: var(--color-text-secondary);
 }
 
-/* Horizontal Grid of 3 Minimal Icon Navigation Elements */
-.cta-nav-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3.5rem;
-  width: 100%;
-  max-width: 820px;
-  margin: 0 auto;
+/* Circular Channel Buttons Grid */
+.cta-channel-grid {
+  display: flex;
   align-items: flex-start;
-  justify-items: center;
+  justify-content: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 680px;
 }
 
-/* Individual Editorial Navigation Link Element */
-.cta-nav-item {
+.cta-channel-link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   text-decoration: none;
   color: var(--color-text-primary);
-  padding: 1rem;
-  background: none;
-  border: none;
-  box-shadow: none;
-  width: 100%;
-  max-width: 240px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cta-icon-wrapper {
+.cta-circle-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background-color: var(--color-text-primary);
+  color: #FEF6EE;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.25rem;
-  color: var(--color-text-primary);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.35s ease;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 4px 14px rgba(41, 38, 36, 0.12);
+  transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
-.cta-icon {
-  width: 32px;
-  height: 32px;
+.cta-btn-icon {
+  width: 26px;
+  height: 26px;
   color: currentColor;
+  transition: transform 0.3s ease;
 }
 
-.cta-text-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cta-title-row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.cta-nav-title {
+.cta-channel-label {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 1.8vw, 1.4rem);
+  font-size: 1.125rem;
   font-weight: 700;
-  letter-spacing: -0.01em;
   color: var(--color-text-primary);
-  transition: color 0.35s ease;
+  margin-bottom: 0.2rem;
+  transition: color 0.3s ease;
 }
 
-.cta-nav-subtitle {
+.cta-channel-caption {
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 400;
   color: var(--color-text-muted);
-  transition: color 0.35s ease;
+  transition: color 0.3s ease;
 }
 
-.cta-badge {
-  font-family: var(--font-sans);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  background-color: rgba(48, 44, 40, 0.06);
-  padding: 3px 9px;
-  border-radius: 999px;
-  display: inline-block;
+/* Hover Interaction: Solid Oxblood Fill + Tactile Scale */
+.cta-channel-link:hover .cta-circle-btn {
+  background-color: var(--color-accent);
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(191, 96, 59, 0.22);
 }
 
-/* Subtle Hover Interaction (Restrained Terracotta Accent) */
-.cta-nav-active {
-  cursor: pointer;
+.cta-channel-link:hover .cta-channel-label {
+  color: var(--color-accent);
 }
 
-.cta-nav-active:hover .cta-icon-wrapper {
-  transform: translateY(-4px);
-  color: #D97B5B;
-}
-
-.cta-nav-active:hover .cta-text-wrapper {
-  transform: translateY(-2px);
-}
-
-.cta-nav-active:hover .cta-nav-title {
+.cta-channel-link:hover .cta-channel-caption {
   color: var(--color-text-primary);
 }
 
-.cta-nav-active:hover .cta-nav-subtitle {
-  color: #D97B5B;
+@media (max-width: 640px) {
+  .cta-section {
+    padding: 5.5rem 1.5rem 7rem;
+  }
+  .cta-channel-grid {
+    gap: 2rem;
+  }
+  .cta-circle-btn {
+    width: 60px;
+    height: 60px;
+  }
+  .cta-btn-icon {
+    width: 23px;
+    height: 23px;
+  }
 }
 
 /* Disabled State (YouTube COMING SOON) */
