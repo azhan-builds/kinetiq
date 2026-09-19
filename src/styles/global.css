@@ -892,35 +892,60 @@ body {
 
 /* Mobile Layout Tuning (< 768px) */
 @media (max-width: 767px) {
+  .roadmap-section {
+    padding: 5rem 1.25rem;
+  }
   .roadmap-timeline-wrapper.vertical-timeline {
     padding-left: 0.25rem;
+    margin-bottom: 3rem;
   }
   .roadmap-vertical-connector {
     left: 11px;
   }
+  .roadmap-vertical-stack {
+    gap: 4.5rem; /* Inter-phase gap space for straddling margin sketches */
+  }
   .roadmap-phase-item-vertical {
     grid-template-columns: 32px 1fr;
+    position: relative;
   }
   .roadmap-info-col {
     padding-left: 0.25rem;
   }
   
   .roadmap-scattered-sketch {
-    position: relative;
-    right: auto;
-    left: auto;
-    top: auto;
-    margin-top: 0.75rem;
-    grid-column: 2;
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
   }
-  .roadmap-scattered-sketch.sketch-kickoff { left: 0; top: 0; }
-  .roadmap-scattered-sketch.sketch-prototype { right: 0; top: 0; }
-  .roadmap-scattered-sketch.sketch-build { left: 0; top: 0; }
-  .roadmap-scattered-sketch.sketch-test { right: 0; top: 0; }
+
+  /* Left-positioned sketches (matching desktop side, straddling phase boundary) */
+  .roadmap-scattered-sketch.sketch-kickoff {
+    left: -10px;
+    right: auto;
+    top: calc(100% - 28px);
+  }
+  .roadmap-scattered-sketch.sketch-build {
+    left: -10px;
+    right: auto;
+    top: calc(100% - 32px);
+  }
+
+  /* Right-positioned sketches (matching desktop side, straddling phase boundary) */
+  .roadmap-scattered-sketch.sketch-prototype {
+    right: -4px;
+    left: auto;
+    top: calc(100% - 24px);
+  }
+  .roadmap-scattered-sketch.sketch-test {
+    right: -4px;
+    left: auto;
+    top: calc(100% - 28px);
+  }
   
   .roadmap-sketch-img {
-    max-width: 96px !important;
-    max-height: 96px !important;
+    max-width: 135px !important;
+    max-height: 135px !important;
   }
 }
 
