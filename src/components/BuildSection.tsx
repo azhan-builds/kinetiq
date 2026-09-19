@@ -95,16 +95,6 @@ const getIconShiverProps = (phaseId: string) => {
 export const BuildSection: React.FC = () => {
   return (
     <section id="build" className="section-block build-section roadmap-section">
-      {/* SVG Turbulence & Displacement Filter for Hand-Inked Line Effect */}
-      <svg width="0" height="0" className="roadmap-filter-svg" aria-hidden="true">
-        <defs>
-          <filter id="hand-inked-filter" x="-20%" y="-10%" width="140%" height="120%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </defs>
-      </svg>
-
       <div className="build-container roadmap-container">
         {/* Section Header */}
         <motion.div
@@ -127,35 +117,44 @@ export const BuildSection: React.FC = () => {
 
         {/* Vertical Timeline Wrapper (All Breakpoints) */}
         <div className="roadmap-timeline-wrapper vertical-timeline">
-          {/* Top-to-Bottom Hand-Inked Progress Connector Line */}
+          {/* Top-to-Bottom Progress Connector Line */}
           <div className="roadmap-vertical-connector" aria-hidden="true">
             <svg viewBox="0 0 20 1000" preserveAspectRatio="none" className="roadmap-vertical-connector-svg">
-              {/* Upcoming phases: Lighter dashed line through all 6 phases */}
+              <defs>
+                <filter id="hand-inked-filter" x="-50%" y="-10%" width="200%" height="120%" filterUnits="userSpaceOnUse">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="noise" />
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+                </filter>
+              </defs>
+
+              {/* STAGE 4: Upcoming phases scroll-triggered draw-in hand-inked path */}
               <motion.path
-                d="M 10 10 L 10 990"
+                d="M 10 12 L 10 988"
                 filter="url(#hand-inked-filter)"
                 stroke="#BF603B"
-                strokeOpacity="0.32"
+                strokeOpacity="0.45"
                 strokeWidth="2.5"
                 strokeDasharray="6 4"
                 fill="none"
+                vectorEffect="non-scaling-stroke"
                 initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 1.6, ease: 'easeOut' }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
               />
 
-              {/* Current phase: Solid full-accent oxblood/orange line through active Kickoff marker */}
+              {/* STAGE 4: Current phase scroll-triggered draw-in hand-inked path */}
               <motion.path
-                d="M 10 10 L 10 40"
+                d="M 10 12 L 10 60"
                 filter="url(#hand-inked-filter)"
                 stroke="#BF603B"
                 strokeWidth="2.5"
                 fill="none"
+                vectorEffect="non-scaling-stroke"
                 initial={{ pathLength: 0 }}
                 whileInView={{ pathLength: 1 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
               />
             </svg>
           </div>

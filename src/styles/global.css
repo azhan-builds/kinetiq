@@ -639,20 +639,19 @@ body {
   pointer-events: none;
 }
 
-/* Vertical Timeline Wrapper */
 .roadmap-timeline-wrapper.vertical-timeline {
   position: relative;
   width: 100%;
   max-width: 620px;
   margin: 0 auto 4rem;
-  padding-left: 1.5rem;
+  padding-left: 0;
 }
 
 /* Vertical Top-to-Bottom Hand-Inked Connector Line */
 .roadmap-vertical-connector {
   position: absolute;
   top: 16px;
-  left: 23px;
+  left: 14px;
   width: 20px;
   height: calc(100% - 32px);
   pointer-events: none;
@@ -890,11 +889,11 @@ body {
     padding: 5rem 1.25rem;
   }
   .roadmap-timeline-wrapper.vertical-timeline {
-    padding-left: 0.25rem;
+    padding-left: 0;
     margin-bottom: 3rem;
   }
   .roadmap-vertical-connector {
-    left: 11px;
+    left: 6px;
   }
   .roadmap-vertical-stack {
     gap: 3.5rem;
