@@ -12,6 +12,7 @@ import { Footer } from '../components/Footer';
 
 export const HomePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('hero');
+  const [isPreloaderComplete, setIsPreloaderComplete] = useState<boolean>(false);
   const location = useLocation();
 
   const handleNavigate = (sectionId: string) => {
@@ -62,10 +63,10 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="site-wrapper">
-      <Preloader />
+      <Preloader onComplete={() => setIsPreloaderComplete(true)} />
       <Navbar activeSection={activeSection} onNavigate={handleNavigate} />
       {/* PAGE 01: HERO */}
-      <HeroSection onNavigate={handleNavigate} />
+      <HeroSection onNavigate={handleNavigate} canPlay={isPreloaderComplete} />
 
       {/* PAGE 02: THE KINETIQ MISSION LOG (Continuous Sheet) */}
       <div className="page-two-sheet" id="page-two">

@@ -1,16 +1,13 @@
 import React from 'react';
 import { motion, type Variants } from 'framer-motion';
-import { BUILD_ENTRIES } from '../data/buildEntries';
+import { ROADMAP_PHASES } from '../data/roadmapPhases';
 
 const containerVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: {
-      duration: 0.85,
-      ease: [0.16, 1, 0.3, 1],
-      staggerChildren: 0.12,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -18,32 +15,100 @@ const containerVariants: Variants = {
 const itemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 20,
-    filter: 'blur(6px)',
+    y: 18,
+    filter: 'blur(4px)',
   },
   visible: {
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
     transition: {
-      duration: 0.8,
+      duration: 0.75,
       ease: [0.16, 1, 0.3, 1],
     },
   },
 };
 
+const getIconShiverProps = (phaseId: string) => {
+  switch (phaseId) {
+    case 'kickoff':
+      return {
+        animate: {
+          rotate: [-3, -1.8, -3.5, -2.2, -3],
+          x: [0, 1.5, -1, 2, 0],
+          y: [0, -1, 1.5, -0.5, 0],
+        },
+        transition: {
+          duration: 5.4,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+          delay: 0,
+        },
+      };
+    case 'prototype':
+      return {
+        animate: {
+          rotate: [2.5, 3.8, 1.7, 3.2, 2.5],
+          x: [0, -1.5, 2, -1, 0],
+          y: [0, 1.5, -1, 2, 0],
+        },
+        transition: {
+          duration: 6.6,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+          delay: 1.2,
+        },
+      };
+    case 'build':
+      return {
+        animate: {
+          rotate: [-2, -0.8, -2.8, -1.2, -2],
+          x: [0, 2, -1.5, 1, 0],
+          y: [0, -1.5, 1, -2, 0],
+        },
+        transition: {
+          duration: 4.8,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+          delay: 0.6,
+        },
+      };
+    case 'test':
+      return {
+        animate: {
+          rotate: [3.5, 1.8, 4.2, 2.8, 3.5],
+          x: [0, -2, 1, -1.8, 0],
+          y: [0, 1, -2, 1.2, 0],
+        },
+        transition: {
+          duration: 5.9,
+          repeat: Infinity,
+          ease: 'easeInOut' as const,
+          delay: 1.8,
+        },
+      };
+    default:
+      return {};
+  }
+};
+
 export const BuildSection: React.FC = () => {
   return (
-    <section id="build" className="section-block build-section">
-      {/* Subtle Background Watermark */}
-      <div className="build-watermark" aria-hidden="true">
-        <img src="/kinetiq_robot_lineart.png" alt="" />
-      </div>
+    <section id="build" className="section-block build-section roadmap-section">
+      {/* SVG Turbulence & Displacement Filter for Hand-Inked Line Effect */}
+      <svg width="0" height="0" className="roadmap-filter-svg" aria-hidden="true">
+        <defs>
+          <filter id="hand-inked-filter" x="-20%" y="-10%" width="140%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      </svg>
 
-      <div className="build-container">
+      <div className="build-container roadmap-container">
         {/* Section Header */}
         <motion.div
-          className="build-header"
+          className="build-header roadmap-header"
           initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
           whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           viewport={{ once: true, margin: '-80px' }}
@@ -52,97 +117,97 @@ export const BuildSection: React.FC = () => {
           <div className="build-header-badge">
             <span>02</span>
             <span className="build-header-divider">//</span>
-            <span>CHRONOLOGICAL LOG</span>
+            <span>SEASON ROADMAP</span>
           </div>
-          <h2 className="build-main-title">The Build</h2>
+          <h2 className="build-main-title">The Roadmap</h2>
           <p className="build-subtitle">
-            A dated, honest record of what worked and what didn't.
+            Six phases. One machine. Here’s where we are.
           </p>
         </motion.div>
 
-        {/* Timeline Layout */}
-        <div className="build-timeline-wrapper">
+        {/* Vertical Timeline Wrapper (All Breakpoints) */}
+        <div className="roadmap-timeline-wrapper vertical-timeline">
+          {/* Top-to-Bottom Hand-Inked Connector Line */}
+          <div className="roadmap-vertical-connector" aria-hidden="true">
+            <svg viewBox="0 0 20 1000" preserveAspectRatio="none" className="roadmap-vertical-connector-svg">
+              <motion.path
+                d="M 10 10 L 10 990"
+                filter="url(#hand-inked-filter)"
+                stroke="#BF603B"
+                strokeWidth="2.5"
+                fill="none"
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 1.6, ease: 'easeOut' }}
+              />
+            </svg>
+          </div>
+
+          {/* 6 Roadmap Phase Items (Vertical Stack Across All Breakpoints) */}
           <motion.div
-            className="build-entries-list"
+            className="roadmap-vertical-stack"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
           >
-            {BUILD_ENTRIES.map((entry) => (
-              <motion.article
-                key={entry.id}
-                className="build-entry-item"
-                variants={itemVariants}
-              >
-                {/* Timeline node & connector rail */}
-                <div className="build-timeline-node-wrapper">
-                  <div className="build-timeline-node" />
-                  <div className="build-timeline-line" />
-                </div>
-
-                {/* Main Entry Card */}
-                <div className="build-entry-card">
-                  <div className="build-card-meta">
-                    <div className="build-card-left-meta">
-                      <span className="build-entry-number">LOG //{entry.entryNumber}</span>
-                      <span className={`build-status-badge status-${entry.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                        {entry.status}
-                      </span>
+            {ROADMAP_PHASES.map((phase) => {
+              const shiverProps = getIconShiverProps(phase.id);
+              return (
+                <motion.div
+                  key={phase.id}
+                  className={`roadmap-phase-item-vertical ${phase.status === 'current' ? 'phase-current' : 'phase-upcoming'}`}
+                  variants={itemVariants}
+                >
+                  {/* Timeline Node Column */}
+                  <div className="roadmap-node-col">
+                    <div className={`roadmap-node ${phase.status === 'current' ? 'node-filled' : 'node-hollow'}`}>
+                      {phase.status === 'current' && <div className="node-inner-dot" />}
                     </div>
-                    <time className="build-entry-date">{entry.date}</time>
                   </div>
 
-                  <h3 className="build-entry-title">{entry.title}</h3>
-                  <p className="build-entry-summary">{entry.summary}</p>
+                  {/* Right-Aligned Info Column */}
+                  <div className="roadmap-info-col">
+                    <span className="roadmap-phase-step">{phase.stepNumber}</span>
+                    <h3 className="roadmap-phase-title">{phase.title}</h3>
+                    {phase.subtext && (
+                      <span className="roadmap-phase-subtext">({phase.subtext})</span>
+                    )}
+                    <p className="roadmap-phase-description">{phase.description}</p>
+                  </div>
 
-                  {/* Optional Detailed Fields */}
-                  {(entry.attempted || entry.learned || entry.next) && (
-                    <div className="build-entry-details">
-                      {entry.attempted && (
-                        <div className="build-detail-block">
-                          <span className="build-detail-label">Attempted</span>
-                          <p className="build-detail-text">{entry.attempted}</p>
-                        </div>
-                      )}
-                      {entry.learned && (
-                        <div className="build-detail-block">
-                          <span className="build-detail-label">Learned</span>
-                          <p className="build-detail-text">{entry.learned}</p>
-                        </div>
-                      )}
-                      {entry.next && (
-                        <div className="build-detail-block">
-                          <span className="build-detail-label">Next Steps</span>
-                          <p className="build-detail-text">{entry.next}</p>
-                        </div>
-                      )}
-                    </div>
+                  {/* Scattered Margin Sketch Icon (Loosely offset with subtle shiver idle animation) */}
+                  {phase.icon && (
+                    <motion.div
+                      className={`roadmap-scattered-sketch sketch-${phase.id}`}
+                      {...shiverProps}
+                    >
+                      <img
+                        src={phase.icon}
+                        alt=""
+                        className="roadmap-sketch-img"
+                        loading="lazy"
+                      />
+                    </motion.div>
                   )}
-                </div>
-              </motion.article>
-            ))}
-
-            {/* Faded Ghost Entry visually signaling ongoing live log */}
-            <motion.div className="build-entry-item build-ghost-item" variants={itemVariants}>
-              <div className="build-timeline-node-wrapper">
-                <div className="build-timeline-node ghost-node" />
-                <div className="build-timeline-line dashed-line" />
-              </div>
-              <div className="build-ghost-card">
-                <div className="build-card-meta">
-                  <span className="build-ghost-tag">// LIVE REPOSITORY</span>
-                  <span className="build-ghost-status">INCOMING</span>
-                </div>
-                <p className="build-ghost-text">
-                  Future entries will log CAD iterations, telemetry tests, and competition prep in real time as the season unfolds.
-                </p>
-              </div>
-            </motion.div>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
+
+        {/* Current-phase note under timeline */}
+        <motion.p
+          className="roadmap-note"
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          Log entries return once there’s real build progress to document.
+        </motion.p>
       </div>
     </section>
   );
 };
-

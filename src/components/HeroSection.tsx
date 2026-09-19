@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 interface HeroSectionProps {
   onNavigate: (sectionId: string) => void;
+  canPlay?: boolean;
 }
 
 const HeroMoveUnderline: React.FC = () => {
@@ -65,7 +66,7 @@ const HeroMoveUnderline: React.FC = () => {
   );
 };
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate, canPlay = true }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasError, setHasError] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
@@ -75,14 +76,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
+    if (video && canPlay && !videoHidden) {
+      video.currentTime = 0;
       video.play().catch(() => {
         setHasError(true);
         setShowImage(true);
         setVideoHidden(true);
       });
     }
+  }, [canPlay, videoHidden]);
 
+  useEffect(() => {
     const handleScroll = () => {
       const vh = window.innerHeight;
       if (vh > 0) {
@@ -171,7 +175,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 className={`hero-video-element ${videoEnded ? 'video-ended' : ''}`}
                 src="/hero/kinetiq-formation.mp4"
                 poster="/hero/kinetiq-machine-final.png"
-                autoPlay
                 muted
                 playsInline
                 controls={false}
