@@ -94,11 +94,7 @@ const getIconShiverProps = (phaseId: string) => {
 
 export const BuildSection: React.FC = () => {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
-  const pathRef = React.useRef<SVGPathElement>(null);
-  const staticPathRef = React.useRef<SVGPathElement>(null);
-
   const [isLineDrawn, setIsLineDrawn] = React.useState(false);
-  const [debugData, setDebugData] = React.useState<Record<string, any>>({});
 
   React.useEffect(() => {
     const el = wrapperRef.current;
@@ -130,115 +126,8 @@ export const BuildSection: React.FC = () => {
     };
   }, []);
 
-  // INSTRUMENTATION: Measure DOM styles, bounding rects, and attributes
-  React.useEffect(() => {
-    const updateDebugMetrics = () => {
-      const pathEl = pathRef.current;
-      const staticEl = staticPathRef.current;
-      const containerEl = wrapperRef.current;
-
-      const pathStyle = pathEl ? window.getComputedStyle(pathEl) : null;
-      const pathRect = pathEl ? pathEl.getBoundingClientRect() : null;
-
-      const staticStyle = staticEl ? window.getComputedStyle(staticEl) : null;
-      const staticRect = staticEl ? staticEl.getBoundingClientRect() : null;
-
-      const containerRect = containerEl ? containerEl.getBoundingClientRect() : null;
-
-      const metrics = {
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight,
-        isLineDrawn,
-        motionPath: {
-          inDOM: !!pathEl,
-          d: pathEl ? pathEl.getAttribute('d') : null,
-          computedStyle: pathStyle
-            ? {
-                stroke: pathStyle.stroke,
-                strokeWidth: pathStyle.strokeWidth,
-                opacity: pathStyle.opacity,
-                display: pathStyle.display,
-                visibility: pathStyle.visibility,
-                strokeDasharray: pathStyle.strokeDasharray,
-                strokeDashoffset: pathStyle.strokeDashoffset,
-              }
-            : null,
-          boundingRect: pathRect
-            ? {
-                x: Math.round(pathRect.x),
-                y: Math.round(pathRect.y),
-                width: Math.round(pathRect.width),
-                height: Math.round(pathRect.height),
-              }
-            : null,
-        },
-        staticPath: {
-          inDOM: !!staticEl,
-          d: staticEl ? staticEl.getAttribute('d') : null,
-          computedStyle: staticStyle
-            ? {
-                stroke: staticStyle.stroke,
-                strokeWidth: staticStyle.strokeWidth,
-                opacity: staticStyle.opacity,
-                display: staticStyle.display,
-                visibility: staticStyle.visibility,
-              }
-            : null,
-          boundingRect: staticRect
-            ? {
-                x: Math.round(staticRect.x),
-                y: Math.round(staticRect.y),
-                width: Math.round(staticRect.width),
-                height: Math.round(staticRect.height),
-              }
-            : null,
-        },
-        containerRect: containerRect
-          ? {
-              x: Math.round(containerRect.x),
-              y: Math.round(containerRect.y),
-              width: Math.round(containerRect.width),
-              height: Math.round(containerRect.height),
-            }
-          : null,
-      };
-
-      setDebugData(metrics);
-      console.log('[ROADMAP DEBUG METRICS]', metrics);
-    };
-
-    updateDebugMetrics();
-    const timer = setInterval(updateDebugMetrics, 500);
-    return () => clearInterval(timer);
-  }, [isLineDrawn]);
-
   return (
     <section id="build" className="section-block build-section roadmap-section">
-      {/* TEMPORARY ON-PAGE DEBUG OVERLAY */}
-      <div
-        style={{
-          position: 'relative',
-          margin: '0 auto 1.5rem',
-          maxWidth: '680px',
-          background: 'rgba(20, 20, 20, 0.92)',
-          color: '#00FF66',
-          fontFamily: 'monospace',
-          fontSize: '11px',
-          padding: '12px',
-          borderRadius: '8px',
-          zIndex: 9999,
-          textAlign: 'left',
-          overflowX: 'auto',
-        }}
-      >
-        <div style={{ fontWeight: 'bold', color: '#FFF', marginBottom: '4px' }}>
-          [ROADMAP DEBUG METRICS — STEP 1 & STEP 2]
-        </div>
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-          {JSON.stringify(debugData, null, 2)}
-        </pre>
-      </div>
-
       <div className="build-container roadmap-container">
         {/* Section Header */}
         <motion.div
@@ -271,21 +160,8 @@ export const BuildSection: React.FC = () => {
                 </filter>
               </defs>
 
-              {/* STEP 2 DIRECT TEST: Plain static path with NO animation props */}
+              {/* Dashed connector track line */}
               <path
-                ref={staticPathRef}
-                d="M 10 12 L 10 988"
-                stroke="#BF603B"
-                strokeOpacity="0.45"
-                strokeWidth="2.5"
-                strokeDasharray="6 4"
-                fill="none"
-                vectorEffect="non-scaling-stroke"
-              />
-
-              {/* Animated motion path with filter */}
-              <motion.path
-                ref={pathRef}
                 d="M 10 12 L 10 988"
                 filter="url(#hand-inked-filter)"
                 stroke="#BF603B"
@@ -294,22 +170,24 @@ export const BuildSection: React.FC = () => {
                 strokeDasharray="6 4"
                 fill="none"
                 vectorEffect="non-scaling-stroke"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: isLineDrawn ? 1 : 0 }}
-                transition={{ duration: 1.4, ease: 'easeOut' }}
+                style={{
+                  opacity: isLineDrawn ? 1 : 0,
+                  transition: 'opacity 0.8s ease-out',
+                }}
               />
 
-              {/* Current phase scroll-triggered draw-in hand-inked path */}
-              <motion.path
+              {/* Active current phase accent line */}
+              <path
                 d="M 10 12 L 10 60"
                 filter="url(#hand-inked-filter)"
                 stroke="#BF603B"
                 strokeWidth="2.5"
                 fill="none"
                 vectorEffect="non-scaling-stroke"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: isLineDrawn ? 1 : 0 }}
-                transition={{ duration: 0.6, ease: 'easeOut', delay: isLineDrawn ? 0.2 : 0 }}
+                style={{
+                  opacity: isLineDrawn ? 1 : 0,
+                  transition: 'opacity 0.8s ease-out 0.2s',
+                }}
               />
             </svg>
           </div>
