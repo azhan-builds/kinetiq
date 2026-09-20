@@ -4,6 +4,7 @@ import { motion, type Variants } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { getAllPhotos, type GalleryPhoto } from '../data/galleryPhotos';
+import { GalleryCard } from '../components/GalleryCard';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -97,36 +98,11 @@ export const GalleryPage: React.FC = () => {
               animate="visible"
             >
               {photos.map((photo) => (
-                <motion.article
+                <GalleryCard
                   key={photo.id}
-                  className="gallery-card"
+                  photo={photo}
                   variants={itemVariants}
-                >
-                  <div className="gallery-photo-frame">
-                    <img
-                      src={photo.src}
-                      alt={photo.alt}
-                      className="gallery-photo-img"
-                      loading="lazy"
-                    />
-                    <div className="gallery-photo-soft-overlay" />
-                  </div>
-
-                  <div className="gallery-card-meta">
-                    <div className="gallery-card-top-row">
-                      {photo.category && (
-                        <span className="gallery-card-tag">{photo.category}</span>
-                      )}
-                      {photo.date && (
-                        <time className="gallery-card-date">{photo.date}</time>
-                      )}
-                    </div>
-                    <h2 className="gallery-card-title">{photo.alt}</h2>
-                    {photo.caption && (
-                      <p className="gallery-card-caption">{photo.caption}</p>
-                    )}
-                  </div>
-                </motion.article>
+                />
               ))}
             </motion.div>
           </div>

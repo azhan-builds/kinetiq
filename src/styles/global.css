@@ -2230,32 +2230,179 @@ body {
   aspect-ratio: auto;
 }
 
-.gallery-card-img {
+/* ==========================================================================
+   Target-Lock Gallery Hover Reticle & Scan-Line System
+   ========================================================================== */
+
+.target-lock-card {
+  position: relative;
+  outline: none;
+  cursor: pointer;
+}
+
+.target-lock-card:focus-visible {
+  border-color: var(--color-accent, #BF603B);
+  box-shadow: 0 0 0 2px rgba(191, 96, 59, 0.35);
+}
+
+/* 1. Image Scale & Scrim Transition */
+.gallery-card-img,
+.gallery-photo-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
-.gallery-preview-card:hover .gallery-card-img,
-.gallery-card:hover .gallery-photo-img {
+.target-lock-card:hover .gallery-card-img,
+.target-lock-card:focus-visible .gallery-card-img,
+.target-lock-card:hover .gallery-photo-img,
+.target-lock-card:focus-visible .gallery-photo-img {
   transform: scale(1.03);
 }
 
 .gallery-card-hover-scrim {
   position: absolute;
   inset: 0;
-  background-color: rgba(41, 38, 36, 0.04);
+  background-color: rgba(41, 38, 36, 0.05);
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.3s ease;
   pointer-events: none;
+  z-index: 1;
 }
 
-.gallery-preview-card:hover .gallery-card-hover-scrim {
+.target-lock-card:hover .gallery-card-hover-scrim,
+.target-lock-card:focus-visible .gallery-card-hover-scrim {
   opacity: 1;
 }
 
+/* 2. Corner Brackets (Mechanical Camera Reticle Lock-On) */
+.target-lock-brackets {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.target-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--color-accent, #BF603B);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 180ms ease-out, transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.bracket-tl {
+  top: 10px;
+  left: 10px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+  transform-origin: top left;
+}
+
+.bracket-tr {
+  top: 10px;
+  right: 10px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+  transform-origin: top right;
+}
+
+.bracket-bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+  transform-origin: bottom left;
+}
+
+.bracket-br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
+  transform-origin: bottom right;
+}
+
+.target-lock-card:hover .target-bracket,
+.target-lock-card:focus-visible .target-bracket {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Touch / Mobile Fallback: Brackets are subtly visible always on touch devices */
+@media (hover: none), (pointer: coarse) {
+  .target-bracket {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+}
+
+/* 3. Scan-Line Sweep Overlay */
+.target-lock-scanline-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.target-lock-scanbeam {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(-100%);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.target-lock-scanbeam::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(191, 96, 59, 0.4) 15%,
+    rgba(191, 96, 59, 0.95) 50%,
+    rgba(191, 96, 59, 0.4) 85%,
+    transparent 100%
+  );
+}
+
+.target-lock-card:hover .target-lock-scanbeam,
+.target-lock-card:focus-visible .target-lock-scanbeam {
+  animation: target-scan-sweep 500ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes target-scan-sweep {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0%);
+  }
+}
+
+/* 4. Caption Block & Date Node Dot */
 .gallery-card-info {
   padding: 1.25rem 1.35rem 1.35rem;
   display: flex;
@@ -2263,6 +2410,13 @@ body {
   gap: 0.35rem;
   background-color: var(--bg-cream-card, #F2EEE3);
   flex-grow: 1;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.target-lock-card:hover .gallery-card-info,
+.target-lock-card:focus-visible .gallery-card-info {
+  transform: translateY(-3px);
 }
 
 .gallery-card-top-meta {
@@ -2290,6 +2444,30 @@ body {
   color: var(--color-text-muted);
 }
 
+.gallery-card-date-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gallery-card-node-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-accent, #BF603B);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 200ms ease-out, transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.target-lock-card:hover .gallery-card-node-dot,
+.target-lock-card:focus-visible .gallery-card-node-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .gallery-card-heading,
 .gallery-card-title {
   font-family: var(--font-display);
@@ -2307,7 +2485,16 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: var(--color-text-secondary);
+  opacity: 0.8;
   margin: 0;
+  transition: opacity 250ms ease-out;
+}
+
+.target-lock-card:hover .gallery-card-subcaption,
+.target-lock-card:focus-visible .gallery-card-subcaption,
+.target-lock-card:hover .gallery-card-caption,
+.target-lock-card:focus-visible .gallery-card-caption {
+  opacity: 1;
 }
 
 /* Understated Show More CTA */

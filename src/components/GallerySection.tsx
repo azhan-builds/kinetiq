@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, type Variants } from 'framer-motion';
 import { getLatestPhotos, type GalleryPhoto } from '../data/galleryPhotos';
+import { GalleryCard } from './GalleryCard';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -75,41 +76,14 @@ export const GallerySection: React.FC = () => {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {photos.map((photo, index) => {
-            const isFeature = index === 0;
-            return (
-              <motion.div
-                key={photo.id}
-                className={`gallery-preview-card ${isFeature ? 'gallery-feature-card' : ''}`}
-                variants={itemVariants}
-              >
-                <div className="gallery-card-frame">
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="gallery-card-img"
-                    loading="lazy"
-                  />
-                  <div className="gallery-card-hover-scrim" />
-                </div>
-
-                <div className="gallery-card-info">
-                  <div className="gallery-card-top-meta">
-                    {photo.category && (
-                      <span className="gallery-card-category">{photo.category}</span>
-                    )}
-                    {photo.date && (
-                      <time className="gallery-card-date-str">{photo.date}</time>
-                    )}
-                  </div>
-                  <h3 className="gallery-card-heading">{photo.alt}</h3>
-                  {photo.caption && (
-                    <p className="gallery-card-subcaption">{photo.caption}</p>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+          {photos.map((photo, index) => (
+            <GalleryCard
+              key={photo.id}
+              photo={photo}
+              isFeature={index === 0}
+              variants={itemVariants}
+            />
+          ))}
         </motion.div>
 
         {/* Understated Show More CTA */}
