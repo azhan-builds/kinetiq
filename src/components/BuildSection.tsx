@@ -93,6 +93,40 @@ const getIconShiverProps = (phaseId: string) => {
 };
 
 export const BuildSection: React.FC = () => {
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const [isLineDrawn, setIsLineDrawn] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = wrapperRef.current;
+    
+    // 1. Primary IntersectionObserver on parent HTML wrapper element
+    let observer: IntersectionObserver | null = null;
+    if (el && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setIsLineDrawn(true);
+          }
+        },
+        { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
+      );
+      observer.observe(el);
+    } else {
+      // Immediate fallback if IntersectionObserver is unavailable
+      setIsLineDrawn(true);
+    }
+
+    // 2. HARD FALLBACK TIMER: Force fully-drawn state after 1.2s if observer doesn't fire
+    const fallbackTimer = setTimeout(() => {
+      setIsLineDrawn(true);
+    }, 1200);
+
+    return () => {
+      if (observer) observer.disconnect();
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
+
   return (
     <section id="build" className="section-block build-section roadmap-section">
       <div className="build-container roadmap-container">
@@ -116,18 +150,18 @@ export const BuildSection: React.FC = () => {
         </motion.div>
 
         {/* Vertical Timeline Wrapper (All Breakpoints) */}
-        <div className="roadmap-timeline-wrapper vertical-timeline">
+        <div ref={wrapperRef} className="roadmap-timeline-wrapper vertical-timeline">
           {/* Top-to-Bottom Progress Connector Line */}
           <div className="roadmap-vertical-connector" aria-hidden="true">
             <svg viewBox="0 0 20 1000" preserveAspectRatio="none" className="roadmap-vertical-connector-svg">
               <defs>
-                <filter id="hand-inked-filter" x="-50%" y="-10%" width="200%" height="120%" filterUnits="userSpaceOnUse">
+                <filter id="hand-inked-filter" x="-20%" y="-5%" width="140%" height="110%">
                   <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="noise" />
-                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
                 </filter>
               </defs>
 
-              {/* STAGE 4: Upcoming phases scroll-triggered draw-in hand-inked path */}
+              {/* Upcoming phases scroll-triggered draw-in hand-inked path */}
               <motion.path
                 d="M 10 12 L 10 988"
                 filter="url(#hand-inked-filter)"
@@ -138,12 +172,11 @@ export const BuildSection: React.FC = () => {
                 fill="none"
                 vectorEffect="non-scaling-stroke"
                 initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 1.5, ease: 'easeOut' }}
+                animate={{ pathLength: isLineDrawn ? 1 : 0 }}
+                transition={{ duration: 1.4, ease: 'easeOut' }}
               />
 
-              {/* STAGE 4: Current phase scroll-triggered draw-in hand-inked path */}
+              {/* Current phase scroll-triggered draw-in hand-inked path */}
               <motion.path
                 d="M 10 12 L 10 60"
                 filter="url(#hand-inked-filter)"
@@ -152,9 +185,8 @@ export const BuildSection: React.FC = () => {
                 fill="none"
                 vectorEffect="non-scaling-stroke"
                 initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+                animate={{ pathLength: isLineDrawn ? 1 : 0 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: isLineDrawn ? 0.2 : 0 }}
               />
             </svg>
           </div>
