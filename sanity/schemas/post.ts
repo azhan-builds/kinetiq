@@ -1,4 +1,14 @@
+import React from 'react';
 import { defineType, defineField } from 'sanity';
+import { MarkdownInput, type MarkdownInputProps } from 'sanity-plugin-markdown';
+
+function SafeMarkdownInput(props: MarkdownInputProps) {
+  const safeProps = {
+    ...props,
+    value: typeof props.value === 'string' ? props.value : '',
+  };
+  return React.createElement(MarkdownInput, safeProps);
+}
 
 export const post = defineType({
   name: 'post',
@@ -65,6 +75,10 @@ export const post = defineType({
       title: 'Body Content (Markdown)',
       type: 'markdown',
       description: 'Paste or write Markdown directly into Sanity Studio.',
+      initialValue: () => '',
+      components: {
+        input: SafeMarkdownInput,
+      },
       validation: (Rule) => Rule.required(),
     }),
   ],
