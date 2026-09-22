@@ -8,7 +8,7 @@ export interface BlogPost {
   category: 'Build Log' | 'Strategy & Ideas' | 'Challenges' | 'Announcements' | string;
   excerpt: string;
   coverImage: string;
-  body?: any[];
+  body?: string | any[];
 }
 
 interface SanityPostDoc {
@@ -19,7 +19,7 @@ interface SanityPostDoc {
   category: string;
   excerpt: string;
   coverImage?: any;
-  body?: any[];
+  body?: string | any[];
 }
 
 // Fallback blog dataset for local preview when Sanity credentials are unset

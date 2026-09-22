@@ -2973,5 +2973,108 @@ body {
   padding: 4rem 1rem;
 }
 
+/* Markdown Rendered Body Styling */
+.markdown-rendered-body p {
+  margin-bottom: 1.6rem;
+}
+
+.markdown-rendered-body h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2.5rem 0 1.2rem;
+  color: var(--color-text-primary);
+}
+
+.markdown-rendered-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 2.2rem 0 1rem;
+  color: var(--color-text-primary);
+}
+
+.markdown-rendered-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 1.8rem 0 0.8rem;
+  color: var(--color-text-primary);
+}
+
+.markdown-rendered-body blockquote {
+  border-left: 3px solid var(--color-accent, #BF603B);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+}
+
+.markdown-rendered-body ul,
+.markdown-rendered-body ol {
+  margin: 1.5rem 0;
+  padding-left: 1.75rem;
+}
+
+.markdown-rendered-body li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-rendered-body a {
+  color: var(--color-accent, #BF603B);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.markdown-rendered-body code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: rgba(48, 44, 40, 0.08);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+.markdown-rendered-body pre {
+  background-color: #1E1E1E;
+  color: #D4D4D4;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.markdown-rendered-body pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  border-radius: 0;
+}
+
+.markdown-rendered-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+}
+
+.markdown-rendered-body th,
+.markdown-rendered-body td {
+  border: 1px solid rgba(48, 44, 40, 0.15);
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.markdown-rendered-body th {
+  background-color: rgba(48, 44, 40, 0.05);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+
 
 

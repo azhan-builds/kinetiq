@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PortableText } from '@portabletext/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { getPostBySlug, type BlogPost } from '../data/blogPosts';
@@ -155,7 +157,11 @@ export const BlogPostPage: React.FC = () => {
 
                 {/* Body Content */}
                 <div className="blog-post-body-content">
-                  {post.body && Array.isArray(post.body) && post.body.length > 0 ? (
+                  {typeof post.body === 'string' ? (
+                    <div className="markdown-rendered-body">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
+                    </div>
+                  ) : post.body && Array.isArray(post.body) && post.body.length > 0 ? (
                     <PortableText value={post.body} components={portableTextComponents} />
                   ) : (
                     <p className="portable-paragraph">{post.excerpt}</p>

@@ -1,5 +1,6 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
+import { markdownSchema } from 'sanity-plugin-markdown';
 import { galleryImage } from './sanity/schemas/galleryImage';
 import { post } from './sanity/schemas/post';
 
@@ -15,9 +16,10 @@ export default defineConfig({
 
   basePath: '/studio',
 
-  plugins: [structureTool()],
+  plugins: [structureTool(), markdownSchema()],
 
   schema: {
     types: [galleryImage, post],
   },
 });
+

@@ -18,8 +18,11 @@
     "lucide-react": "^1.41.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.18.3",
+    "remark-gfm": "^4.0.1",
     "sanity": "^6.15.0",
+    "sanity-plugin-markdown": "^9.0.13",
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
